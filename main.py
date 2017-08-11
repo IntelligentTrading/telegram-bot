@@ -9,6 +9,7 @@ from google.cloud import datastore
 basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
             level=INFO)
 
+
 try:
     TELEGRAM_TOKEN = os.environ['TELEGRAM_TOKEN']
 except:
@@ -18,7 +19,6 @@ except:
     query.add_filter('ENVIRONMENT', '=', 'STAGE')
     TELEGRAM_TOKEN = list(query.fetch(limit=1))[0]['VALUE']
 
-BASE_URL = "https://optimal-oasis-170206.appspot.com"
 
 def main():
     """ Main """

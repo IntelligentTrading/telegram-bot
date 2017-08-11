@@ -1,25 +1,17 @@
-import requests
 from commands.command_helpers import telegram_command
 
 
 @telegram_command("exchanges")
 def exchanges():
-    try:
-        req = requests.get('https://optimal-oasis-170206.appspot.com/exchanges')
-        exchange_data = req.json()
 
-        return '\n'.join([
-            "Options: "
-            ] + [
-            exchange_data['name'] for exchange_data in exchange_data['exchanges']
-            ] + [
-            "",
-            "set with command",
-            "/exchange <name>"
-        ])
+    return '\n'.join([
+        "Options: ",
+        "Poloniex",
+        "",
+        "set with command",
+        "/exchange <name>"
+    ])
 
-    except Exception as e:
-        return "Worker service in maintenance!"
 
 exchanges.help_text = "list of supported exchanges"
 
