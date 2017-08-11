@@ -15,7 +15,7 @@ except:
     client = datastore.Client()
     query = client.query(kind='Secret')
     query.add_filter('KEY', '=', 'TELEGRAM_TOKEN')
-    query.add_filter('ENVIRONMENT', '=', 'STAGE')
+    query.add_filter('ENVIRONMENT', '=', 'PRODUCTION')
     TELEGRAM_TOKEN = list(query.fetch(limit=1))[0]['VALUE']
 
 BASE_URL = "https://optimal-oasis-170206.appspot.com"
