@@ -7,7 +7,7 @@ from google.cloud import datastore
 def coins():
     try:
         client = datastore.Client()
-        query = client.query(kind='Channels', order=['-date'])
+        query = client.query(kind='Channels', order=['-timestamp'])
         content = list(query.fetch(limit=1))[0]['content']
 
         result = json.loads(content.replace("'", "\""))
