@@ -3,7 +3,7 @@ from os import path
 
 sys.path.append(path.dirname(path.abspath(__file__)))
 
-from commands import start, help, coins, price, exchange, sma, ema
+from commands import start, help, coins, poloniex, price, exchange, sma, ema
 
 ####### EXAMPLE TEST COMMANDS #######
 from commands.command_helpers import telegram_command
@@ -36,13 +36,14 @@ public_commands = [
 
     # legacy commands
     coins.coins,
-    price.price,
+    poloniex.poloniex,
 
     # settings
     exchange.exchanges,
     exchange.exchange,
 
     # indicator commands
+    price.price,
 
 ]
 

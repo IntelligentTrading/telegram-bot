@@ -1,3 +1,5 @@
+from datetime import datetime
+import time
 import simplejson as json
 from google.cloud import datastore
 from commands.command_helpers import telegram_command
@@ -5,7 +7,7 @@ from commands.command_helpers import telegram_command
 
 # @telegram_command("cryptocompare_price", pass_args=True)
 # def cryptocompare_price(args):
-#     #todo: refactor to use worker & datastore
+#     #todo: refactor to use data_sources and datastore
 #     return get_price(",".join(args).upper(), "USD,BTC")
 #
 # cryptocompare_price.help_text = "get the price for any crypto ticker eg. ETH"
@@ -14,31 +16,26 @@ from commands.command_helpers import telegram_command
 @telegram_command("price", pass_args=True)
 def price(args):
     try:
+        symbol = args[0].upper()
 
         client = datastore.Client()
-        query = client.query(kind='Channels', order=['-date'])
-        content = list(query.fetch(limit=1))[0]['content']
-        price_data = json.loads(content.replace("'", "\""))
-
-        new_args = str(args).replace("[", "").replace("]", "").replace("'", "")
-        data = price_data[new_args]
+        query = client.query(kind='Indicators')
+        query.add_filter('symbol', '=', symbol)
+        query.order = ['-timestamp']
+        datastore_entity = list(query.fetch(limit=1))[0]
+        price_satoshis = datastore['value']
 
         return "\n".join([
-            "Base Volume: %s" % data['baseVolume'],
-            "High Last 24hr: %s" % data['high24hr'],
-            "Highest Bid: %s" % data['highestBid'],
-            "Last Price: %s" % data['last'],
-            "Low Last 24hr: %s" % data['low24hr'],
-            "Lowest Ask: %s" % data['lowestAsk'],
-            "Percent Change: %s" % data['percentChange'],
-            "Quote Volume: %s" % data['quoteVolume'],
+            symbol + " Price",
+            "BTC {:,.8f}".format(price_satoshis / 100000000),
+            "as of %ds ago, Poloniex" % int(time.time() - datastore['timestamp'])
         ])
 
     except Exception as e:
         print(str(e))
         return "Please check the name of coin. Coin not found!"
 
-price.help_text = "get the price for any coin pair in /coins"
+price.help_text = "get the BTC price for any coin eg. /price ETH"
 
 
 def get_last_price(symbol, channel="Poloniex"):
@@ -55,7 +52,7 @@ def get_last_price(symbol, channel="Poloniex"):
     query.add_filter('symbol', '=', symbol)
     query.add_filter('ilk', '=', 'price')
     query.order = ['-timestamp']
-    datastore_entity = list(query.fetch(limit=100))[0]
+    datastore_entity = list(query.fetch(limit=1))[0]
 
     # datastore entity example
     # {'ilk': 'price',
