@@ -1,0 +1,1 @@
+exports.message = 'Welcome to Intelligent Trading Bot!\nYou are now subscribed to price alerts.\nTry /help for a list of commands and examples';

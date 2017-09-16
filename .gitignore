@@ -4,3 +4,5 @@
 intelligenttrading-datastore.json
 .idea/
 *credentials.json
+
+itt-local-bot/node_modules/*
