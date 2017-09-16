@@ -1,6 +1,6 @@
 var request = require('request');
 //const token = process.env.ITT_DEV_TELEGRAM_TOKEN;
-const token = "410807714:AAH66gGkC7izBdiFAtoWkr-FNh-r69lrANY";
+const token = "<telegram-token>";
 var baseUrl = 'https://api.telegram.org/bot' + token + '/';
 
 exports.sendMessage = function (chatId, message) {
