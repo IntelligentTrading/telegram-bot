@@ -2,7 +2,7 @@
 
 // const itt_dev_bot = require('node-telegram-bot-api');
 // const bot = new TelegramBot(token, {polling: true});
-var commandManager = require('./commands.js');
+var commandManager = require('./commands.js').commandManager;
 var telegram = require('./telegram-api.js');
 
 
@@ -14,9 +14,16 @@ exports.botHandler = function(req, res){
    */
   try{
     const {message:{chat, text}} = req.body;
-    //telegram.sendMessage(chat.id,'Telegram ok');
-    commandManager.command(text,chat.id);
-    res.status(200).send('OK');
+
+    var args = text.split(' ');
+    var commandName = args[0].replace('/', '');
+    var currentCommand = commandManager[commandName];
+    
+    currentCommand.behaviour(chat.id)
+    .then(function (data) {
+        telegram.sendMessage(chat.id, currentCommand.message(data));
+        res.status(200).send(chat.id);
+    });
   }
   catch(err){
     res.status(500).send('Error:'+err.message+'\n');
