@@ -19,10 +19,12 @@ exports.botHandler = function(req, res){
     var commandName = args[0].replace('/', '');
     var currentCommand = commandManager[commandName];
     
+    console.log(chat.id);
+
     currentCommand.behaviour(chat.id)
     .then(function (data) {
         telegram.sendMessage(chat.id, currentCommand.message(data));
-        res.status(200).send(chat.id);
+        res.status(200).send('Done');
     });
   }
   catch(err){
