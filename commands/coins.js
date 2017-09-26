@@ -1,10 +1,9 @@
 var Command = require('./command.js').command;
 var coins = new Command('Exchange');
 
-var config = require('../config.js').config;
-
+var datastoreConfig = require('../config.js').datastoreConfig;
 const Datastore = require('@google-cloud/datastore');
-var datastoreClient = Datastore(config);
+var datastoreClient = Datastore(datastoreConfig);
 
 
 coins.message = function(coins_exc){

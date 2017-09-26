@@ -1,0 +1,14 @@
+resources:
+  - type: storage.v1.bucket
+    name: sls-itt-telegram-js-dev-1505554438109
+  - type: cloudfunctions.v1beta2.function
+    name: itt-telegram-js-dev-first
+    properties:
+      location: us-central1
+      availableMemoryMb: 256
+      timeout: 60s
+      function: botHandler
+      sourceArchiveUrl: >-
+        gs://sls-itt-telegram-js-dev-1505554438109/serverless/itt-telegram-js/dev/1506429624014-2017-09-26T12:40:24.014Z/itt-telegram-js.zip
+      httpsTrigger:
+        url: path

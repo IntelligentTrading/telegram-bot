@@ -1,7 +1,7 @@
-var config = require('../config.js').config;
+var datastoreConfig = require('../config.js').datastoreConfig;
 var Command = require('./command.js').command;
 const Datastore = require('@google-cloud/datastore');
-var datastoreClient = Datastore(config);
+var datastoreClient = Datastore(datastoreConfig);
 var price = new Command('Exchange');
 
 price.message = function (symbol) {

@@ -6,3 +6,4 @@ intelligenttrading-datastore.json
 *credentials.json
 
 itt-local-bot/node_modules/*
+node_modules/*

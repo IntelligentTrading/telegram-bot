@@ -7,6 +7,7 @@ provider:
   # the path to the credentials file needs to be absolute
   credentials: ~/.cred/itt-keyfile.json
 
+
 plugins:
   - serverless-google-cloudfunctions
 
@@ -18,9 +19,12 @@ package:
     - .git/**
   include:
     - node_modules/**
-    - commands.js
-    - telegram-api.js
-    - start.js
+    #- commands.js
+    #- telegram-api.js
+    #- start.js
+    - config.js
+    - libs/**
+    - commands/**
 
 functions:
   first:

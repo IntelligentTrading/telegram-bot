@@ -10,6 +10,7 @@
   "license": "MIT",
   "dependencies": {
     "serverless-google-cloudfunctions": "^1.1.0",
-    "@google-cloud/datastore": "1.1.0"
+    "@google-cloud/datastore": "1.1.0",
+    "node-telegram-bot-api":"^0.28.0"
   }
 }
