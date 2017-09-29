@@ -1,4 +1,4 @@
-service: itt-telegram-js
+service: fdl-telegram-bot-1
 
 provider:
   name: google

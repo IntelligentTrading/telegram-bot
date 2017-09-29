@@ -1,18 +1,13 @@
 var start = require('./start.js').start;
 var help = require('./help.js').help;
-var exchangeCommands = require('./exchange.js');
-var coins = require('./coins.js').coins;
 var price = require('./price.js').price;
-var poloniex = require('./poloniex.js').poloniex;
+var subscribe = require('./subscribe.js').subscribe;
 
 var commandManager = {
         start: start,
         help:  help,
-        exchanges: exchangeCommands.exchanges,
-        exchange: exchangeCommands.exchange,
-        coins: coins,
+        subscribe: subscribe,
         price: price,
-        poloniex: poloniex,
         unknown: {
             message : function(){return 'unknown command'}
         }
