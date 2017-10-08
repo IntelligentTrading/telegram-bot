@@ -7,8 +7,15 @@ intelligenttrading-datastore.json
 
 itt-local-bot/node_modules/*
 node_modules/*
-config.env
 commands/coins.js
 commands/ema.js
 commands/exchange.js
 commands/poloniex.js
+
+.gcloud/keyfile.json
+
+.serverless/*
+
+config.js
+
+config/.env
