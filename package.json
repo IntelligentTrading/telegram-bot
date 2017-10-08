@@ -9,8 +9,10 @@
   "author": "serverless.com",
   "license": "MIT",
   "dependencies": {
-    "serverless-google-cloudfunctions": "^1.1.0",
     "@google-cloud/datastore": "1.1.0",
-    "node-telegram-bot-api":"^0.28.0"
+    "dotenv": "^4.0.0",
+    "fs": "0.0.1-security",
+    "node-telegram-bot-api": "^0.28.0",
+    "serverless-google-cloudfunctions": "^1.1.0"
   }
 }

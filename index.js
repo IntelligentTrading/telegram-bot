@@ -1,6 +1,14 @@
 'use strict';
 
-var token = require('./config.js').ITT_DEV_TELEGRAM_TOKEN;
+const envVariables = require('dotenv').config({path: './config/.env'});
+if(envVariables.error){
+  console.log('Error loading .env file...');
+}else{
+  console.log('Variables loaded...');
+  console.log(envVariables.parsed.TELEGRAM_TOKEN_DEV);
+}
+
+var token = envVariables.parsed.TELEGRAM_TOKEN_DEV;
 var TelegramBot = require('node-telegram-bot-api');
 const bot = new TelegramBot(token, { polling: false });
 var commandManager = require('./commands/command-manager.js').commandManager;

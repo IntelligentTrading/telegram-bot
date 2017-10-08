@@ -1,4 +1,4 @@
-service: fdl-telegram-bot-1
+service: itt-bot-dev
 
 provider:
   name: google
@@ -6,6 +6,9 @@ provider:
   project: optimal-oasis-170206
   # the path to the credentials file needs to be absolute
   credentials: ~/.cred/itt-keyfile.json
+  environment:
+    TEST_VAR: 'token'
+
 
 
 plugins:
@@ -19,15 +22,13 @@ package:
     - .git/**
   include:
     - node_modules/**
-    #- commands.js
-    #- telegram-api.js
-    #- start.js
     - config.js
     - libs/**
     - commands/**
+    - config.env
 
 functions:
-  first:
+  bot:
     handler: botHandler
     events:
       - http: path
