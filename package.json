@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev-deploy": "/Users/fdl/dev/google-cloud-sdk/bin/gcloud beta functions deploy botHandlerDev --trigger-http --entry-point botHandler --stage-bucket dev-itt-telegram ",
+    "prod-deploy": "/Users/fdl/dev/google-cloud-sdk/bin/gcloud beta functions deploy botHandlerProd --trigger-http --entry-point botHandler --stage-bucket prod-itt-telegram "
   },
   "author": "serverless.com",
   "license": "MIT",

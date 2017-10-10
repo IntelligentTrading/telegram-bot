@@ -8,8 +8,14 @@ var commandManager = {
         help:  help,
         subscribe: subscribe,
         price: price,
+        greeting: {
+            message : function(first_name){return "Hi "+first_name+"! Welcome to ITT 📈📉💲"}
+        },
+        repeat: {
+            message : function(){return "Please repeat, I missed your last request!"}
+        },
         unknown: {
-            message : function(){return 'unknown command'}
+            message : function(){return 'Unknown command'}
         }
 };
 

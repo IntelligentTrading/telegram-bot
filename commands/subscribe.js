@@ -38,7 +38,9 @@ subscribe.sub = function (chatId) {
         key: subscriptionKey,
         data: {
           interface: 'telegram',
-          settings: {}
+          settings: {
+              stage: process.env.STAGE
+          }
         }
       };
 
