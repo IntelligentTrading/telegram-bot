@@ -1,8 +1,8 @@
-
-exports.getTradingDataFor = function (interestCoin, data_type) {
+function getTradingDataFor(interestCoin, data_type) {
     return new Promise((resolve, reject) => {
 
-        var coin = coins.find(x => x.text == interestCoin || x.callback_data == interestCoin);
+        var coin = coins.find(x => x.text.toUpperCase() == interestCoin.toUpperCase()
+         || x.callback_data.toUpperCase() == interestCoin.toUpperCase());
 
         if (coin == null || coin == undefined) {
             resolve(interestCoin + " is not recognized, please try with another coin.\n");
@@ -13,10 +13,10 @@ exports.getTradingDataFor = function (interestCoin, data_type) {
 
             var data_result = undefined;
 
-            if(data_type == data_types.VALUATION){
+            if (data_type == data_types.VALUATION) {
                 data_result = queryValuationDatacenter(coin);
             }
-            else if(data_type == data_types.VOLUME){
+            else if (data_type == data_types.VOLUME) {
                 data_result = queryVolumeDatacenter(coin);
             }
 
@@ -35,10 +35,10 @@ var queryValuationDatacenter = function (coin) {
         throw new Error('Coin is undefined.');
 
     var valuation = `Here's the current valuation (sample data): 
-    ${coin.text} (${coin.callback_data})
-    Price: $11.13 (+1.99%) ↗️
-    Market Cap: $1,093,770,423
-    (The all time high for ${coin.callback_data} was $13.20 on 12-Sep-2017)`;
+        ${coin.text} (${coin.callback_data})
+        Price: $11.13 (+1.99%) ↗️
+        Market Cap: $1,093,770,423
+        (The all time high for ${coin.callback_data} was $13.20 on 12-Sep-2017)`;
 
     return valuation;
 }
@@ -50,13 +50,14 @@ var queryVolumeDatacenter = function (coin) {
         throw new Error('Coin is undefined.');
 
     var volume =
-        `${coin.text} (${coin.callback_data})
-        24hr Volume: $67,699,726
-        Top Exchange: Bitfinex (${coin.callback_data}/USD)
-        .#1 Market: Korea (34%)
-        .#2 Market: Japan (28%)
-        .#3 Market: USA (22%)
-        All Markets: https://coinmarketcap.com/currencies/omisego/#markets`
+        `*${coin.text}* (${coin.callback_data})
+            
+            24hr Volume: $67,699,726
+            Top Exchange: Bitfinex (${coin.callback_data}/USD)
+            .#1 Market: Korea (34%)
+            .#2 Market: Japan (28%)
+            .#3 Market: USA (22%)
+            All [Markets](https://coinmarketcap.com/currencies/${coin.text}/#markets)`
 
     return volume;
 }
@@ -74,10 +75,42 @@ var coins = [{
     callback_data: 'OMG'
 }];
 
-exports.coins = coins;
-
 var data_types = {
-    VALUATION : 0,
+    VALUATION: 0,
     VOLUME: 1
 };
+
+exports.getTradingDataFor = getTradingDataFor;
+
+exports.tradingBehavior = function (interestCoin, data_type) {
+    return new Promise((resolve, reject) => {
+
+        console.log(interestCoin);
+
+        if (interestCoin == undefined || interestCoin.length == 0) {
+            resolve({resolve_message:`Select the coin to get related info:`,
+            options: {
+                reply_markup: {
+                    inline_keyboard: [coins]
+                }
+            }});
+        }
+        else {
+            
+            getTradingDataFor(interestCoin[0], data_type)
+                .then(trading_data => {
+                    if (trading_data === undefined || trading_data === null) {
+                        reject('Data not available');
+                    } else {
+                        resolve({resolve_message:trading_data, options:{"parse_mode":"Markdown"}});
+                    }
+                }, error => {
+                    console.log(error);
+                    reject(error);
+                })
+        }
+    });
+}
+
+exports.coins = coins;
 exports.data_type = data_types;

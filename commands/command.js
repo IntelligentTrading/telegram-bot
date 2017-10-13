@@ -13,8 +13,16 @@ var command = function (type, help_text, message, behaviour) {
     this.callback_message = function(data){ return data }; // typically a pop-up or a progress message
     this.callback_chat_message = function(data){return data};
     this.options = {};
+    this.reply_type = REPLY_TYPES.TEXT;
 };
 
 command.NotImplementedMessage = 'Command not yet implemented';
 
+var REPLY_TYPES = {
+    TEXT : 0,
+    PHOTO: 1,
+    AUDIO: 2
+};
+
 exports.command = command;
+exports.REPLY_TYPES = REPLY_TYPES;

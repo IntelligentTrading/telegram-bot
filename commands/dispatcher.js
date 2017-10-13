@@ -2,6 +2,7 @@ var token = process.env.TELEGRAM_TOKEN;
 var TelegramBot = require('node-telegram-bot-api');
 const bot = new TelegramBot(token, { polling: false });
 var commandManager = require('./command-manager.js').commandManager;
+var replyTypes = require('./command').REPLY_TYPES;
 var currentCommand = undefined;
 
 var commandRegEx = /\/(\w+)( )*(\w+){0,1}/;
@@ -21,23 +22,35 @@ var dispatch = function (telegram_message) {
         }
         else {
             var commandLabel = match[1];
-            console.log(commandLabel);
+            
             var args = match.filter(function (arg) {
                 return arg != null && arg != undefined && arg.trim() != "";
             }).slice(2);
 
-            if (commandManager.hasOwnProperty(commandLabel)) {
-                //cleaning args
-                currentCommand = commandManager[commandLabel];
+            console.log(`[Command] ${commandLabel} with arguments ${args}`);
 
-                // 1. Re-engineer with promise-retry behavior 
-                // 2. Refactor of command-manager and <command>.js
+            if (commandManager.hasOwnProperty(commandLabel)) {
+                currentCommand = commandManager[commandLabel];
+                
+                //TODO 1. Re-engineer with promise-retry behavior 
+                //TODO 2. Refactor of command-manager and <command>.js
+                
                 currentCommand.behaviour(args, chat.id)
                     .then(function (data) {
 
+                        var opts = JSON.stringify(currentCommand.options);
+                        console.log(`[Invoke] ${commandLabel} with options ${opts}.\n\n`);
+
+                        if(currentCommand.reply_type == replyTypes.TEXT){
+                            console.log('Reply with text');
+                        }
+                        if(currentCommand.reply_type == replyTypes.PHOTO){
+                            console.log('Reply with photo');
+                        }
+
                         bot.sendMessage(chat.id, currentCommand.message(data), currentCommand.options)
                             .then((value) => {
-                                console.log('Command ' + commandLabel + ' executed.\n\n');
+                                console.log(`[Executed] ${commandLabel} with options ${opts}.\n\n`);
                             })
                             .catch((reason) => {
                                 console.log('[Bot] ' + reason);
@@ -45,8 +58,9 @@ var dispatch = function (telegram_message) {
                                 bot.sendMessage(chat.id, "Uh-Oh! Something went wrong, please retry!");
 
                             });
-                    }).catch(function () {
-                        console.log('Promise rejected');
+                    }).catch(function (reason) {
+                        console.log('Promise rejected: '+reason);
+                        bot.sendMessage(chat.id, "Uh-Oh! Something went wrong, please retry!");
                     });
             }
             else
@@ -67,14 +81,17 @@ var dispatch = function (telegram_message) {
         }
         else {
             currentCommand
-                // execute the command callback
                 .callback(callback_data, chat_id)
-                // call answerCallbackQuery, Telegram requires it!
+                //! Telegram requires answerCallbackQuery
                 .then(function (callback_message_data) {
                     bot.answerCallbackQuery(telegram_message.callback_query.id, currentCommand.callback_message())
                         .then(function () {
-                            // send the reply through the chat since the message might be too long for the popup!
-                            bot.sendMessage(chat_id, currentCommand.callback_chat_message(callback_message_data));
+                            /*
+                                ! send the reply through the chat since the message might be too long for the popup
+                                TODO Write proper option parameter for the sendMessage on callback
+                                TODO Maybe a chain system 
+                            */
+                            bot.sendMessage(chat_id, currentCommand.callback_chat_message(callback_message_data), {"parse_mode":"Markdown"});
                         })
                         .catch(function (rejectionErr) {
                             throw new Error(rejectionErr);
