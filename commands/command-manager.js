@@ -2,12 +2,16 @@ var start = require('./start.js').start;
 var help = require('./help.js').help;
 var price = require('./price.js').price;
 var subscribe = require('./subscribe.js').subscribe;
+var feedback = require('./feedback.js').feedback;
+var volume = require('./volume.js').volume;
 
 var commandManager = {
         start: start,
         help:  help,
         subscribe: subscribe,
         price: price,
+        volume: volume,
+        feedback: feedback,
         greeting: {
             message : function(first_name){return "Hi "+first_name+"! Welcome to ITT 📈📉💲"}
         },

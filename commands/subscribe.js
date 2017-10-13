@@ -28,7 +28,7 @@ var subscribe = new Command('Bot', "Manage your subscription to updates and noti
 subscribe.sub = function (chatId) {
     return new Promise((resolve, reject) => {
   
-      console.log('Adding new subscription...[' + chatId + ']');
+      console.time('[LOG] Added new subscription...[' + chatId + ']');
   
       const kind = 'Subscription';
       // The Cloud Datastore key for the new entity
@@ -47,7 +47,6 @@ subscribe.sub = function (chatId) {
       // Saves the entity
       datastoreClient.save(subscription)
         .then(() => {
-          console.log(`Saved ${subscription.key}`);
           resolve(chatId);
         })
         .catch((err) => {
@@ -55,23 +54,28 @@ subscribe.sub = function (chatId) {
           reject('Rejected');
         });
   
+        console.timeEnd('[LOG] Added new subscription...[' + chatId + ']');
     });
   }
 
 subscribe.usub = function(chatId){
     return new Promise((resolve, reject) => {
+        console.time('[LOG] Deleted subscription...[' + chatId + ']');
+
         const kind = 'Subscription';
         const subscriptionKey = datastoreClient.key([kind,datastoreClient.int(chatId)]);
 
         datastoreClient.delete(subscriptionKey)
         .then(() => {
-          console.log(`Deleted ${chatId}`);
           resolve(chatId);
         })
         .catch((err) => {
           console.error('ERROR:', err);
           reject('Rejected');
         });
+
+        console.timeEnd('[LOG] Deleted subscription...[' + chatId + ']');
+
     });
 }  
 

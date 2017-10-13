@@ -19,3 +19,5 @@ commands/poloniex.js
 config.js
 
 config/.env
+
+*.env

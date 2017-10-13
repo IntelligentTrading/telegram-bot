@@ -12,7 +12,7 @@ help.message = function(){
 
         if(Object.keys(cmdGroups)[i] != 'undefined')
         {
-        text+='\n<b>'+Object.keys(cmdGroups)[i]+'</b>\n';
+        text+='\n*'+Object.keys(cmdGroups)[i]+'*\n';
 
         cmdGroups[Object.keys(cmdGroups)[i]]
         .forEach(c => {
@@ -22,16 +22,19 @@ help.message = function(){
             });
         }
     }
-
-    console.log(text);
     return text;
 };
 help.help_text = "list of available commands";
-help.options = {"parse_mode":"HTML"};
+help.options = {"parse_mode":"Markdown"};
 
 
-help.behaviour = function(params){ return new Promise(resolve => {
-    resolve(params);
+help.behaviour = function(params){ return new Promise((resolve, reject) => {
+    try{
+        resolve(params);
+    }
+    catch(err){
+        reject('Help promise rejected - '+err);
+    }
 });
 }
 
