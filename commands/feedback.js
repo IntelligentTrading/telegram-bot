@@ -1,6 +1,6 @@
 var Command = require('./command.js').command;
 
-var feedback = new Command('Bot', "Send in any kind of ideas you may have on the ITT Trading Bot. Try /feedback <your idea>", function(message){
+var feedback = new Command('Bot', "Help us improve the Bot with your own ideas.", function(message){
     return message;
 
 });

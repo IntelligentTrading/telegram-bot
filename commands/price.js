@@ -4,7 +4,7 @@ var Command = CommandClass.command;
 var ReplyTypes = CommandClass.REPLY_TYPES;
 
 
-var price = new Command('Trading',"The current valuation of a coin. Try: /price BTC",function(valuationMessage){
+var price = new Command('Trading',"The current valuation of a coin. For example: /price BTC",function(valuationMessage){
     console.dir(valuationMessage);
     this.options = valuationMessage.options;
     return valuationMessage.resolve_message;

@@ -1,14 +1,14 @@
 resources:
   - type: storage.v1.bucket
-    name: sls-fdl-telegram-bot-1-dev-1506685680641
+    name: sls-itt-telegram-prod-1507548425104
   - type: cloudfunctions.v1beta2.function
-    name: fdl-telegram-bot-1-dev-first
+    name: itt-telegram-prod-bot
     properties:
       location: us-central1
       availableMemoryMb: 256
       timeout: 60s
       function: botHandler
       sourceArchiveUrl: >-
-        gs://sls-fdl-telegram-bot-1-dev-1506685680641/serverless/fdl-telegram-bot-1/dev/1506691871410-2017-09-29T13:31:11.410Z/fdl-telegram-bot-1.zip
+        gs://sls-itt-telegram-prod-1507548425104/serverless/itt-telegram/prod/1507560965449-2017-10-09T14:56:05.449Z/itt-telegram.zip
       httpsTrigger:
         url: path

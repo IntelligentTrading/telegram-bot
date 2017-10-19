@@ -34,12 +34,10 @@ var queryValuationDatacenter = function (coin) {
     if (coin === undefined || coin === null)
         throw new Error('Coin is undefined.');
 
-    var valuation = `Here's the current valuation (sample data): 
-        ${coin.text} (${coin.callback_data})
-        Price: $11.13 (+1.99%) ↗️
-        Market Cap: $1,093,770,423
-        (The all time high for ${coin.callback_data} was $13.20 on 12-Sep-2017)`;
-
+    var valuation = `*${coin.text}* (${coin.callback_data})
+Price: *$11.13* (+1.99%) ↗️
+Market Cap: $1,093,770,423
+All time high :*$13.20* (12-Sep-2017)`;
     return valuation;
 }
 
@@ -49,15 +47,18 @@ var queryVolumeDatacenter = function (coin) {
     if (coin === undefined || coin === null)
         throw new Error('Coin is undefined.');
 
-    var volume =
-        `*${coin.text}* (${coin.callback_data})
-            
-            24hr Volume: $67,699,726
-            Top Exchange: Bitfinex (${coin.callback_data}/USD)
-            .#1 Market: Korea (34%)
-            .#2 Market: Japan (28%)
-            .#3 Market: USA (22%)
-            All [Markets](https://coinmarketcap.com/currencies/${coin.text}/#markets)`
+    var volume =`*${coin.text}* (${coin.callback_data})
+24hr Volume: $67,699,726
+Last 7D Average: $42,585,248
+
+#1 Exchange: Bittrex (${coin.callback_data}/BTC)
+#2 Exchange: Bitfinex (${coin.callback_data}/USD)
+#3 Exchange: Binance (${coin.callback_data}/BTC)
+
+#1 Market: Korea 34%
+#2 Market: Japan 28%
+#3 Market: USA 22%
+All [Markets](https://coinmarketcap.com/currencies/${coin.text}/#markets)`;
 
     return volume;
 }
@@ -88,7 +89,7 @@ exports.tradingBehavior = function (interestCoin, data_type) {
         console.log(interestCoin);
 
         if (interestCoin == undefined || interestCoin.length == 0) {
-            resolve({resolve_message:`Select the coin to get related info:`,
+            resolve({resolve_message:`Select the coin:`,
             options: {
                 reply_markup: {
                     inline_keyboard: [coins]

@@ -1,7 +1,7 @@
 var Command = require('./command.js').command;
 var trading = require('./trading.js');
 
-var volume = new Command('Trading', "get the volume for a coin ticker. Try: /volume BTC",function(volumeMessage){
+var volume = new Command('Trading', "Last 24 hour volume data. For example: /volume BTC",function(volumeMessage){
     console.dir(volumeMessage);
     this.options = volumeMessage.options;
     return volumeMessage.resolve_message;

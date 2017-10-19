@@ -1,6 +1,6 @@
 'use strict';
 
-const envVariables = require('dotenv').config({ path: './config/prod.env' });
+const envVariables = require('dotenv').config({ path: './config/dev.env' });
 if (envVariables.error) {
   console.log('\nError loading .env file...');
 } else {

@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "dev-deploy": "/Users/fdl/dev/google-cloud-sdk/bin/gcloud beta functions deploy botHandlerDev --trigger-http --entry-point botHandler --stage-bucket dev-itt-telegram ",
-    "prod-deploy": "/Users/fdl/dev/google-cloud-sdk/bin/gcloud beta functions deploy botHandlerProd --trigger-http --entry-point botHandler --stage-bucket prod-itt-telegram "
+    "prod-deploy": "/Users/fdl/dev/google-cloud-sdk/bin/gcloud beta functions deploy botHandlerProd --trigger-http --entry-point botHandler --stage-bucket prod-itt-telegram ",
+    "read-dev-log": "/Users/fdl/dev/google-cloud-sdk/bin/gcloud beta functions logs read botHandlerDev"
   },
   "author": "serverless.com",
   "license": "MIT",
@@ -14,7 +14,7 @@
     "@google-cloud/datastore": "1.1.0",
     "dotenv": "^4.0.0",
     "fs": "0.0.1-security",
-    "node-telegram-bot-api": "^0.28.0",
+    "node-telegram-bot-api": "0.28.0",
     "serverless-google-cloudfunctions": "^1.1.0"
   }
 }

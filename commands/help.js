@@ -2,29 +2,19 @@ var Command = require('./command.js').command;
 require('../libs/extentions.js');
 
 var help = new Command('Bot');
-help.commands = [];
+help.command_list = function(){
+return `/price - The current valuation of a coin. For example: /price BTC
+/volume - Last 24 hour volume data. For example: /volume BTC
+/feedback - Help us improve the Bot with your own ideas.
+/help - Get a list of all commands.`;
+}
+
+
 help.message = function(){
-    var text = 'Available commands:\n';
-
-    var cmdGroups = this.commands.groupBy('type');
-
-    for(i = 0; i< Object.keys(cmdGroups).length;i++){
-
-        if(Object.keys(cmdGroups)[i] != 'undefined')
-        {
-        text+='\n*'+Object.keys(cmdGroups)[i]+'*\n';
-
-        cmdGroups[Object.keys(cmdGroups)[i]]
-        .forEach(c => {
-            if(c != undefined && c.name != 'unknown'){
-                    text += '/'+c.name+' - '+c.help_text+'\n';
-                }
-            });
-        }
-    }
-    return text;
+    return `Here's a list of all commands currently available:\n${this.command_list()}`;
 };
-help.help_text = "list of available commands";
+
+help.help_text = "Get a list of all commands.";
 help.options = {"parse_mode":"Markdown"};
 
 

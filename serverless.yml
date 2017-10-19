@@ -24,7 +24,11 @@ package:
     - commands/**
 
 functions:
-  bot:
+  botHandlerDev:
+    handler: botHandler
+    events:
+      - http: path
+  botHandlerProd:
     handler: botHandler
     events:
       - http: path

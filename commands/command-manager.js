@@ -4,6 +4,7 @@ var price = require('./price.js').price;
 var subscribe = require('./subscribe.js').subscribe;
 var feedback = require('./feedback.js').feedback;
 var volume = require('./volume.js').volume;
+var settings = require('./settings.js').settings;
 
 var commandManager = {
         start: start,
@@ -12,6 +13,7 @@ var commandManager = {
         price: price,
         volume: volume,
         feedback: feedback,
+        settings: settings,
         greeting: {
             message : function(first_name){return "Hi "+first_name+"! Welcome to ITT 📈📉💲"}
         },
@@ -22,11 +24,5 @@ var commandManager = {
             message : function(){return 'Unknown command'}
         }
 };
-
-for(var i = 0; i < Object.keys(commandManager).length;i++)
-{
-    var cmdName = Object.keys(commandManager)[i];
-    commandManager.help.commands.push({name: cmdName, help_text: commandManager[cmdName].help_text, type: commandManager[cmdName].type });
-}
 
 module.exports.commandManager = commandManager;

@@ -22,7 +22,7 @@ var dispatch = function (telegram_message) {
         }
         else {
             var commandLabel = match[1];
-            
+
             var args = match.filter(function (arg) {
                 return arg != null && arg != undefined && arg.trim() != "";
             }).slice(2);
@@ -31,20 +31,20 @@ var dispatch = function (telegram_message) {
 
             if (commandManager.hasOwnProperty(commandLabel)) {
                 currentCommand = commandManager[commandLabel];
-                
+
                 //TODO 1. Re-engineer with promise-retry behavior 
                 //TODO 2. Refactor of command-manager and <command>.js
-                
+
                 currentCommand.behaviour(args, chat.id)
                     .then(function (data) {
 
                         var opts = JSON.stringify(currentCommand.options);
                         console.log(`[Invoke] ${commandLabel} with options ${opts}.\n\n`);
 
-                        if(currentCommand.reply_type == replyTypes.TEXT){
+                        if (currentCommand.reply_type == replyTypes.TEXT) {
                             console.log('Reply with text');
                         }
-                        if(currentCommand.reply_type == replyTypes.PHOTO){
+                        if (currentCommand.reply_type == replyTypes.PHOTO) {
                             console.log('Reply with photo');
                         }
 
@@ -59,7 +59,7 @@ var dispatch = function (telegram_message) {
 
                             });
                     }).catch(function (reason) {
-                        console.log('Promise rejected: '+reason);
+                        console.log('Promise rejected: ' + reason);
                         bot.sendMessage(chat.id, "Uh-Oh! Something went wrong, please retry!");
                     });
             }
@@ -70,7 +70,10 @@ var dispatch = function (telegram_message) {
     }// bot is sending a callback_query
     else if (telegram_message.callback_query !== undefined) {
 
+        console.log(telegram_message);
+
         const chat_id = telegram_message.callback_query.message.chat.id;
+        const message_id = telegram_message.callback_query.message.message_id;
         const callback_data = telegram_message.callback_query.data;
 
         console.log(`[BOT] Callback ${callback_data}`);
@@ -81,7 +84,7 @@ var dispatch = function (telegram_message) {
         }
         else {
             currentCommand
-                .callback(callback_data, chat_id)
+                .callback(callback_data, chat_id, message_id)
                 //! Telegram requires answerCallbackQuery
                 .then(function (callback_message_data) {
                     bot.answerCallbackQuery(telegram_message.callback_query.id, currentCommand.callback_message())
@@ -91,7 +94,12 @@ var dispatch = function (telegram_message) {
                                 TODO Write proper option parameter for the sendMessage on callback
                                 TODO Maybe a chain system 
                             */
-                            bot.sendMessage(chat_id, currentCommand.callback_chat_message(callback_message_data), {"parse_mode":"Markdown"});
+                            if (currentCommand.reply_type == replyTypes.EDIT) {
+                                bot.editMessageText(currentCommand.callback_chat_message(callback_message_data), currentCommand.callback_options);
+                            }
+                            else {
+                                bot.sendMessage(chat_id, currentCommand.callback_chat_message(callback_message_data), { "parse_mode": "Markdown" });
+                            }
                         })
                         .catch(function (rejectionErr) {
                             throw new Error(rejectionErr);
