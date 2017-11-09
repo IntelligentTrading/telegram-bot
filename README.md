@@ -1,3 +1,4 @@
+[![Waffle.io - Columns and their card count](https://badge.waffle.io/IntelligentTrading/telegram-bot.png?columns=all)](https://waffle.io/IntelligentTrading/telegram-bot?utm_source=badge)
 # Intelligent Trading Development 
 This document describe how works the development and deployment process.
 
