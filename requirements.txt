@@ -1,7 +1,5 @@
 Flask==0.12.2
-google-cloud-datastore==1.2.0
 gunicorn==19.7.1
-PyYAML==3.12
-requests==2.18.2
+requests==2.18.3
 simplejson==3.11.1
 python-telegram-bot==7.0.1

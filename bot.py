@@ -3,25 +3,14 @@ from logging import basicConfig, INFO
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 from commands.command_index import commands as command_list
 from commands.command_index import unknown_command
-from google.cloud import datastore
-
 
 basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
             level=INFO)
 
 
-try:
-    TELEGRAM_TOKEN = os.environ['TELEGRAM_TOKEN']
-except:
-    client = datastore.Client()
-    query = client.query(kind='Secret')
-    query.add_filter('KEY', '=', 'TELEGRAM_TOKEN')
-    query.add_filter('ENVIRONMENT', '=', 'STAGE')
-    TELEGRAM_TOKEN = list(query.fetch(limit=1))[0]['VALUE']
-
-
 def main():
     """ Main """
+    TELEGRAM_TOKEN = os.environ['TELEGRAM_TOKEN']
     updater = Updater(token=TELEGRAM_TOKEN)
 
     dispatcher = updater.dispatcher
